@@ -1,117 +1,99 @@
 # Bagels Game 🥯
 
-A deductive logic number-guessing game with Hack Club OAuth authentication and competitive leaderboards!
+A classic deductive logic number-guessing game with a cozy checkered tablecloth design!
 
 ## Features
 
-- **Classic Bagels Game**: Guess the secret number using logical deduction
-- **Multiple Difficulty Levels**: 3-6 digit numbers
-- **Hack Club OAuth**: Login with your Hack Club account
-- **Global Leaderboard**: Compete with the Hack Club community
-- **Score System**: Points based on difficulty and efficiency
-- **Clean UI**: Cozy checkered tablecloth design
+- **Classic Bagels Gameplay**: Guess the secret number using logical deduction
+- **Multiple Difficulty Levels**: Choose between 3-6 digit numbers
+- **Side-by-Side Layout**: See your guesses and clues in real-time
+- **Clean UI**: Beautiful checkered tablecloth aesthetic
+- **Instant Feedback**: Get clues after each guess
 
 ## Game Rules
 
-- Guess the secret number (no repeated digits)
-- Get clues for each guess:
-  - 🟢 **Fermi**: Right digit, right spot
-  - 🟡 **Pico**: Right digit, wrong spot
-  - 🔴 **Bagels**: No correct digits
-- Win before running out of guesses!
+Guess the secret number (no repeated digits allowed). After each guess, you'll get clues:
 
-## Setup Instructions
+- 🟢 **Fermi**: Right digit in the right position
+- 🟡 **Pico**: Right digit but wrong position
+- 🔴 **Bagels**: No correct digits
+
+Use logic to deduce the secret number before running out of guesses!
+
+## Quick Start
 
 ### 1. Install Dependencies
+
+```bash
+pip install streamlit
+```
+
+Or install from requirements.txt:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Register Your App with Hack Club Auth
-
-1. Go to [Hack Club Auth Developer Apps](https://auth.hackclub.com/apps)
-2. Click "app me up!" and fill out the form
-3. Set your redirect URI (e.g., `http://localhost:8501` for local development)
-4. Copy your Client ID and Client Secret
-
-### 3. Configure Environment Variables
-
-Create a `.env` file or set environment variables:
-
-```bash
-export HACKCLUB_CLIENT_ID="your_client_id_here"
-export HACKCLUB_CLIENT_SECRET="your_client_secret_here"
-export REDIRECT_URI="http://localhost:8501"
-```
-
-Or use Streamlit secrets (`.streamlit/secrets.toml`):
-
-```toml
-HACKCLUB_CLIENT_ID = "your_client_id_here"
-HACKCLUB_CLIENT_SECRET = "your_client_secret_here"
-REDIRECT_URI = "http://localhost:8501"
-```
-
-### 4. Run the App
+### 2. Run the Game
 
 ```bash
 streamlit run streamlit_bagels.py
 ```
 
-## Deployment
+The game will open in your browser at `http://localhost:8501`
 
-### Streamlit Cloud
+## Deployment to Streamlit Cloud
 
 1. Push your code to GitHub
 2. Go to [share.streamlit.io](https://share.streamlit.io)
 3. Connect your GitHub repository
-4. Add your secrets in the Streamlit Cloud dashboard:
-   - `HACKCLUB_CLIENT_ID`
-   - `HACKCLUB_CLIENT_SECRET`
-   - `REDIRECT_URI` (your deployed URL, e.g., `https://your-app.streamlit.app`)
-5. Update your Hack Club OAuth app redirect URI to match your deployed URL
+4. Deploy!
 
-## Scoring System
+That's it - no configuration needed!
 
-```
-Score = (Digits × 100) + Efficiency Bonus
-```
+## How to Play
 
-- **Base Score**: Difficulty level × 100 points
-- **Efficiency Bonus**: Based on how few guesses you used
-- Higher difficulty + fewer guesses = higher score!
+1. **Choose Difficulty**: Select 3, 4, 5, or 6 digits in the sidebar
+2. **Make a Guess**: Enter a number with unique digits
+3. **Read the Clues**: Use Fermi, Pico, and Bagels to deduce the answer
+4. **Win the Game**: Guess the correct number before running out of attempts!
 
-## Leaderboard
+## Strategy Tips
 
-- Login with Hack Club to save your scores
-- Top 100 scores are saved
-- Compete with the Hack Club community
-- Top 3 players get special medals 🥇🥈🥉
+- Start with numbers that cover different digits (like 0, 1, 2, 3...)
+- Track which digits you've eliminated
+- Use Fermi clues to lock in correct positions
+- Pay attention to Pico patterns to figure out placement
 
 ## Technologies Used
 
 - **Streamlit**: Web app framework
-- **Hack Club Auth**: OAuth 2.0 authentication
 - **Python**: Game logic and backend
-- **JSON**: Leaderboard storage
+- **CSS**: Custom styling for the checkered tablecloth theme
+
+## Game Mechanics
+
+- **No Repeated Digits**: The secret number never has duplicate digits
+- **Limited Guesses**: You have 10 attempts to guess correctly
+- **Smart Clues**: Clues are sorted and always honest
+- **Fresh Start**: Click "New Game" anytime to start over
 
 ## Contributing
 
-Contributions are welcome! Feel free to open issues or submit pull requests.
+Contributions are welcome! Feel free to:
+- Report bugs
+- Suggest new features
+- Submit pull requests
+- Improve the documentation
 
 ## License
 
 MIT License - feel free to use and modify!
 
-## Credits
+## About Bagels
 
-Built with ☕ by the Hack Club community
+Bagels (also known as "Bulls and Cows" or "Mastermind with numbers") is a classic deductive reasoning game. This digital version brings the fun of the original game with a modern, user-friendly interface.
 
 ---
 
-### OAuth Documentation
-
-For more details on Hack Club OAuth integration, see:
-- [OAuth Guide](https://auth.hackclub.com/docs/oauth-guide)
-- [API Documentation](https://auth.hackclub.com/docs/api)
+Built with ☕ and 🥯 | Enjoy the game!
