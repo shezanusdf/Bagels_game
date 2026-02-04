@@ -71,11 +71,12 @@ def colorize(clues):
 
 def get_authorization_url():
     """Generate Hack Club OAuth authorization URL"""
+    # Use only basic scopes that are guaranteed to work
     params = {
         "client_id": HACKCLUB_CLIENT_ID,
         "redirect_uri": REDIRECT_URI,
         "response_type": "code",
-        "scope": "openid profile email name"
+        "scope": "openid profile email"
     }
     return f"https://auth.hackclub.com/oauth/authorize?{urlencode(params)}"
 
