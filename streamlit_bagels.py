@@ -91,23 +91,35 @@ def exchange_code_for_token(code):
                 "redirect_uri": REDIRECT_URI,
                 "code": code,
                 "grant_type": "authorization_code"
-            }
+            },
+            timeout=10
         )
         response.raise_for_status()
         return response.json()
+    except requests.exceptions.HTTPError as e:
+        error_msg = f"HTTP {e.response.status_code}"
+        try:
+            error_detail = e.response.json()
+            error_msg += f": {error_detail}"
+        except:
+            error_msg += f": {e.response.text[:200]}"
+        return {"error": error_msg}
     except Exception as e:
-        st.error(f"Error exchanging code: {str(e)}")
-        return None
+        return {"error": str(e)}
 
 def get_user_info(access_token):
     """Get user information from Hack Club Auth"""
     try:
         response = requests.get(
             "https://auth.hackclub.com/api/v1/me",
-            headers={"Authorization": f"Bearer {access_token}"}
+            headers={"Authorization": f"Bearer {access_token}"},
+            timeout=10
         )
         response.raise_for_status()
         return response.json()
+    except requests.exceptions.HTTPError as e:
+        st.error(f"Failed to get user info: HTTP {e.response.status_code}")
+        return None
     except Exception as e:
         st.error(f"Error getting user info: {str(e)}")
         return None
@@ -364,17 +376,32 @@ h2, h3 {
 # Check for OAuth code in URL parameters
 query_params = st.query_params
 if "code" in query_params and "user" not in st.session_state:
-    code = query_params["code"]
-    token_data = exchange_code_for_token(code)
-    if token_data:
-        access_token = token_data.get("access_token")
-        user_info = get_user_info(access_token)
-        if user_info:
-            st.session_state.user = user_info
-            st.session_state.access_token = access_token
-    # Clear the code from URL
-    st.query_params.clear()
-    st.rerun()
+    with st.spinner("Logging you in..."):
+        code = query_params["code"]
+
+        # Exchange code for token
+        token_data = exchange_code_for_token(code)
+        if token_data and "access_token" in token_data:
+            access_token = token_data.get("access_token")
+
+            # Get user info
+            user_info = get_user_info(access_token)
+            if user_info:
+                st.session_state.user = user_info
+                st.session_state.access_token = access_token
+                st.success("✅ Successfully logged in!")
+            else:
+                st.error("❌ Failed to get user information from Hack Club")
+        else:
+            st.error(f"❌ OAuth failed. Error: {token_data.get('error', 'Unknown error') if token_data else 'No response from server'}")
+
+        # Clear the code from URL
+        st.query_params.clear()
+
+        # Small delay to show the message
+        import time
+        time.sleep(1)
+        st.rerun()
 
 # ===== INITIALIZE STATE =====
 
