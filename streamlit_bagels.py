@@ -8,10 +8,15 @@ from urllib.parse import urlencode
 
 # ===== CONFIGURATION =====
 
-# You need to set these as environment variables or Streamlit secrets
-HACKCLUB_CLIENT_ID = os.getenv("HACKCLUB_CLIENT_ID", "")
-HACKCLUB_CLIENT_SECRET = os.getenv("HACKCLUB_CLIENT_SECRET", "")
-REDIRECT_URI = os.getenv("REDIRECT_URI", "http://localhost:8501")
+# Load from Streamlit secrets or environment variables
+if hasattr(st, "secrets"):
+    HACKCLUB_CLIENT_ID = st.secrets.get("HACKCLUB_CLIENT_ID", os.getenv("HACKCLUB_CLIENT_ID", ""))
+    HACKCLUB_CLIENT_SECRET = st.secrets.get("HACKCLUB_CLIENT_SECRET", os.getenv("HACKCLUB_CLIENT_SECRET", ""))
+    REDIRECT_URI = st.secrets.get("REDIRECT_URI", os.getenv("REDIRECT_URI", "http://localhost:8501"))
+else:
+    HACKCLUB_CLIENT_ID = os.getenv("HACKCLUB_CLIENT_ID", "")
+    HACKCLUB_CLIENT_SECRET = os.getenv("HACKCLUB_CLIENT_SECRET", "")
+    REDIRECT_URI = os.getenv("REDIRECT_URI", "http://localhost:8501")
 
 LEADERBOARD_FILE = "leaderboard.json"
 
@@ -422,11 +427,12 @@ Score = (Digits × 100) + Efficiency Bonus
 Made with ☕ by Hack Club Community
 """)
 
-# ===== MAIN GAME AREA =====
+# ===== MAIN GAME AREA - SIDE BY SIDE LAYOUT =====
 
-col1, col2, col3 = st.columns([1, 2, 1])
+game_col, history_col = st.columns([1, 1])
 
-with col2:
+# Left Column: Gameplay
+with game_col:
     st.subheader("Place Your Guess")
 
     if not st.session_state.game_over:
@@ -441,9 +447,7 @@ with col2:
             label_visibility="collapsed"
         )
 
-        col_a, col_b, col_c = st.columns([1, 2, 1])
-        with col_b:
-            submit_clicked = st.button("Submit Guess", use_container_width=True)
+        submit_clicked = st.button("Submit Guess", use_container_width=True)
 
         if submit_clicked:
             if not guess.isdigit() or len(guess) != st.session_state.num_digits:
@@ -492,14 +496,13 @@ with col2:
 
         st.markdown("</div>", unsafe_allow_html=True)
 
-# ===== HISTORY TABLE =====
+# Right Column: Guess History
+with history_col:
+    st.subheader("Guess History")
 
-if st.session_state.history:
-    col1, col2, col3 = st.columns([1, 2, 1])
-    with col2:
-        st.markdown("<br>", unsafe_allow_html=True)
+    if st.session_state.history:
         st.markdown("<div class='game-card'>", unsafe_allow_html=True)
-        st.markdown("### Your Guess History")
+        st.markdown("### Your Guesses")
 
         for i, (g, clues) in enumerate(st.session_state.history, start=1):
             st.markdown(
@@ -508,13 +511,17 @@ if st.session_state.history:
             )
 
         st.markdown("</div>", unsafe_allow_html=True)
+    else:
+        st.markdown("<div class='game-card'>", unsafe_allow_html=True)
+        st.info("Your guess history will appear here")
+        st.markdown("</div>", unsafe_allow_html=True)
 
 # ===== GAME OVER =====
 
 if st.session_state.game_over:
+    st.markdown("<br>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("<div class='game-card' style='text-align:center;'>", unsafe_allow_html=True)
         st.markdown("### Game Over!")
 
@@ -522,11 +529,9 @@ if st.session_state.game_over:
             st.markdown(f"### Your Score: {st.session_state.score}")
             st.markdown(f"*Solved in {st.session_state.guess_count} guesses with {st.session_state.num_digits} digits*")
 
-        col_a, col_b, col_c = st.columns([1, 2, 1])
-        with col_b:
-            if st.button("Play Again", use_container_width=True):
-                reset_game()
-                st.rerun()
+        if st.button("Play Again", use_container_width=True):
+            reset_game()
+            st.rerun()
         st.markdown("</div>", unsafe_allow_html=True)
 
 # ===== LEADERBOARD =====
