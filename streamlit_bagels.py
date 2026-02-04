@@ -251,6 +251,14 @@ h2, h3 {
 }
 
 /* Input Styling */
+.stTextInput > label {
+    display: none !important;
+}
+
+.stTextInput > div {
+    margin-top: 0 !important;
+}
+
 .stTextInput > div > div > input {
     background: #FFFFFF !important;
     border: 5px solid #8B5A3C !important;
@@ -262,6 +270,12 @@ h2, h3 {
     color: #5D4037 !important;
     letter-spacing: 10px !important;
     font-family: 'Comic Neue', cursive !important;
+}
+
+.stTextInput > div > div > input::placeholder {
+    color: #D7A86E !important;
+    opacity: 0.5 !important;
+    letter-spacing: 4px !important;
 }
 
 /* Button Styling */
@@ -433,18 +447,19 @@ game_col, history_col = st.columns([1, 1])
 
 # Left Column: Gameplay
 with game_col:
-    st.subheader("Place Your Guess")
-
     if not st.session_state.game_over:
         st.markdown("<div class='game-card'>", unsafe_allow_html=True)
 
-        st.markdown(f"### Guess {st.session_state.guess_count} of {st.session_state.max_guesses}")
+        st.markdown("### Place Your Guess")
+        st.markdown(f"**Guess {st.session_state.guess_count} of {st.session_state.max_guesses}**")
+        st.markdown("<br>", unsafe_allow_html=True)
 
         guess = st.text_input(
-            f"Enter a {st.session_state.num_digits}-digit number:",
+            "guess",
             max_chars=st.session_state.num_digits,
             key="guess_input",
-            label_visibility="collapsed"
+            label_visibility="collapsed",
+            placeholder=f"{st.session_state.num_digits} digits..."
         )
 
         submit_clicked = st.button("Submit Guess", use_container_width=True)
@@ -498,23 +513,19 @@ with game_col:
 
 # Right Column: Guess History
 with history_col:
-    st.subheader("Guess History")
+    st.markdown("<div class='game-card'>", unsafe_allow_html=True)
+    st.markdown("### Guess History")
 
     if st.session_state.history:
-        st.markdown("<div class='game-card'>", unsafe_allow_html=True)
-        st.markdown("### Your Guesses")
-
         for i, (g, clues) in enumerate(st.session_state.history, start=1):
             st.markdown(
                 f"<div class='history-item'><strong>#{i}</strong> &nbsp;&nbsp; <code style='font-size:1.4rem;letter-spacing:6px;color:#8B5A3C;font-weight:700;'>{g}</code> &nbsp;&nbsp;→&nbsp;&nbsp; {colorize(clues)}</div>",
                 unsafe_allow_html=True
             )
-
-        st.markdown("</div>", unsafe_allow_html=True)
     else:
-        st.markdown("<div class='game-card'>", unsafe_allow_html=True)
-        st.info("Your guess history will appear here")
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align:center; color:#8B5A3C; padding:2rem 0;'>Your guesses will appear here</p>", unsafe_allow_html=True)
+
+    st.markdown("</div>", unsafe_allow_html=True)
 
 # ===== GAME OVER =====
 
