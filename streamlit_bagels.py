@@ -71,12 +71,12 @@ def colorize(clues):
 
 def get_authorization_url():
     """Generate Hack Club OAuth authorization URL"""
-    # Use only basic scopes that are guaranteed to work
+    # Try with minimal scope first
     params = {
         "client_id": HACKCLUB_CLIENT_ID,
         "redirect_uri": REDIRECT_URI,
         "response_type": "code",
-        "scope": "openid profile email"
+        "scope": "openid"
     }
     return f"https://auth.hackclub.com/oauth/authorize?{urlencode(params)}"
 
@@ -288,7 +288,7 @@ h2, h3 {
 }
 
 /* Button Styling */
-.stButton > button {
+.stButton > button, .stLinkButton > a {
     background: #D7A86E !important;
     color: #3E2723 !important;
     border: 4px solid #8B5A3C !important;
@@ -302,14 +302,17 @@ h2, h3 {
     transition: all 0.1s ease !important;
     cursor: pointer !important;
     font-family: 'Fredoka', cursive !important;
+    text-decoration: none !important;
+    display: block !important;
+    text-align: center !important;
 }
 
-.stButton > button:hover {
+.stButton > button:hover, .stLinkButton > a:hover {
     transform: translateY(-2px) !important;
     box-shadow: 0 8px 0px rgba(139, 90, 60, 0.6) !important;
 }
 
-.stButton > button:active {
+.stButton > button:active, .stLinkButton > a:active {
     transform: translateY(3px) !important;
     box-shadow: 0 3px 0px rgba(139, 90, 60, 0.6) !important;
 }
@@ -550,27 +553,21 @@ if st.session_state.game_over:
 # ===== LEADERBOARD =====
 
 st.markdown("<br><br>", unsafe_allow_html=True)
-col1, col2, col3 = st.columns([1, 2, 1])
+st.markdown("### 🏆 Top 10 Leaderboard")
 
-with col2:
-    st.markdown("<div class='leaderboard-card'>", unsafe_allow_html=True)
-    st.markdown("### 🏆 Top 10 Leaderboard")
+top_scores = get_top_scores(10)
 
-    top_scores = get_top_scores(10)
+if top_scores:
+    for idx, entry in enumerate(top_scores, 1):
+        rank_class = f"top-{idx}" if idx <= 3 else ""
+        medal = ["🥇", "🥈", "🥉"][idx-1] if idx <= 3 else f"#{idx}"
 
-    if top_scores:
-        for idx, entry in enumerate(top_scores, 1):
-            rank_class = f"top-{idx}" if idx <= 3 else ""
-            medal = ["🥇", "🥈", "🥉"][idx-1] if idx <= 3 else f"#{idx}"
-
-            st.markdown(
-                f"""<div class='leaderboard-item {rank_class}'>
-                    <div><strong>{medal} {entry['name']}</strong></div>
-                    <div>{entry['score']} pts | {entry['difficulty']}D in {entry['guesses']} guesses</div>
-                </div>""",
-                unsafe_allow_html=True
-            )
-    else:
-        st.info("No scores yet. Be the first to set a record!")
-
-    st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown(
+            f"""<div class='leaderboard-item {rank_class}'>
+                <div><strong>{medal} {entry['name']}</strong></div>
+                <div>{entry['score']} pts | {entry['difficulty']}D in {entry['guesses']} guesses</div>
+            </div>""",
+            unsafe_allow_html=True
+        )
+else:
+    st.info("No scores yet. Be the first to set a record!")
