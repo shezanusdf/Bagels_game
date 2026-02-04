@@ -257,25 +257,33 @@ h2, h3 {
 
 .stTextInput > div {
     margin-top: 0 !important;
+    margin-bottom: 1rem !important;
 }
 
 .stTextInput > div > div > input {
     background: #FFFFFF !important;
-    border: 5px solid #8B5A3C !important;
-    border-radius: 15px !important;
-    padding: 1.3rem !important;
-    font-size: 2.2rem !important;
+    border: 4px solid #8B5A3C !important;
+    border-radius: 12px !important;
+    padding: 1rem 1.5rem !important;
+    font-size: 2rem !important;
     font-weight: 700 !important;
     text-align: center !important;
     color: #5D4037 !important;
-    letter-spacing: 10px !important;
+    letter-spacing: 8px !important;
     font-family: 'Comic Neue', cursive !important;
+    box-shadow: 0 4px 0px rgba(139, 90, 60, 0.3) !important;
+}
+
+.stTextInput > div > div > input:focus {
+    border-color: #6D4C41 !important;
+    outline: none !important;
 }
 
 .stTextInput > div > div > input::placeholder {
-    color: #D7A86E !important;
-    opacity: 0.5 !important;
-    letter-spacing: 4px !important;
+    color: #A0785A !important;
+    opacity: 0.6 !important;
+    letter-spacing: 2px !important;
+    font-size: 1rem !important;
 }
 
 /* Button Styling */
@@ -377,22 +385,24 @@ st.markdown("<br>", unsafe_allow_html=True)
 st.title("BAGELS - The Deductive Logic Game")
 
 # Show login/user info
-col_left, col_center, col_right = st.columns([1, 2, 1])
-with col_center:
-    if "user" in st.session_state:
-        user_name = st.session_state.user.get("name", "Player")
-        st.markdown(f"<p style='text-align:center; font-size:1.1rem; color:#6D4C41;'>Logged in as <strong>{user_name}</strong></p>", unsafe_allow_html=True)
+if "user" in st.session_state:
+    user_name = st.session_state.user.get("name", "Player")
+    st.markdown(f"<p style='text-align:center; font-size:1.1rem; color:#6D4C41; margin-bottom:1rem;'>Logged in as <strong>{user_name}</strong></p>", unsafe_allow_html=True)
+    col1, col2, col3 = st.columns([2, 1, 2])
+    with col2:
         if st.button("Logout", use_container_width=True):
             del st.session_state.user
             del st.session_state.access_token
             st.rerun()
+else:
+    st.markdown("<p style='text-align:center; font-size:1.1rem; color:#6D4C41; margin-bottom:0.5rem;'>Login to save your scores to the leaderboard</p>", unsafe_allow_html=True)
+    if HACKCLUB_CLIENT_ID and HACKCLUB_CLIENT_SECRET:
+        auth_url = get_authorization_url()
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            st.link_button("🔐 Login with Hack Club", auth_url, use_container_width=True)
     else:
-        st.markdown("<p style='text-align:center; font-size:1.1rem; color:#6D4C41;'>Login to save your scores to the leaderboard</p>", unsafe_allow_html=True)
-        if HACKCLUB_CLIENT_ID and HACKCLUB_CLIENT_SECRET:
-            auth_url = get_authorization_url()
-            st.markdown(f"<a href='{auth_url}' target='_self'><button style='background:#D7A86E; color:#3E2723; border:4px solid #8B5A3C; border-radius:15px; padding:0.8rem 2rem; font-size:1.1rem; font-weight:700; cursor:pointer; width:100%;'>Login with Hack Club</button></a>", unsafe_allow_html=True)
-        else:
-            st.info("OAuth not configured. Set HACKCLUB_CLIENT_ID and HACKCLUB_CLIENT_SECRET")
+        st.warning("OAuth not configured. Set HACKCLUB_CLIENT_ID and HACKCLUB_CLIENT_SECRET")
 
 st.markdown("<br>", unsafe_allow_html=True)
 
@@ -447,22 +457,20 @@ game_col, history_col = st.columns([1, 1])
 
 # Left Column: Gameplay
 with game_col:
-    if not st.session_state.game_over:
-        st.markdown("<div class='game-card'>", unsafe_allow_html=True)
+    st.markdown("### Place Your Guess")
 
-        st.markdown("### Place Your Guess")
+    if not st.session_state.game_over:
         st.markdown(f"**Guess {st.session_state.guess_count} of {st.session_state.max_guesses}**")
-        st.markdown("<br>", unsafe_allow_html=True)
 
         guess = st.text_input(
-            "guess",
+            "Enter your guess",
             max_chars=st.session_state.num_digits,
             key="guess_input",
             label_visibility="collapsed",
-            placeholder=f"{st.session_state.num_digits} digits..."
+            placeholder=f"Enter {st.session_state.num_digits} digits"
         )
 
-        submit_clicked = st.button("Submit Guess", use_container_width=True)
+        submit_clicked = st.button("Submit Guess", use_container_width=True, type="primary")
 
         if submit_clicked:
             if not guess.isdigit() or len(guess) != st.session_state.num_digits:
@@ -509,41 +517,34 @@ with game_col:
                         st.session_state.game_over = True
                         st.rerun()
 
-        st.markdown("</div>", unsafe_allow_html=True)
-
 # Right Column: Guess History
 with history_col:
-    st.markdown("<div class='game-card'>", unsafe_allow_html=True)
     st.markdown("### Guess History")
 
     if st.session_state.history:
         for i, (g, clues) in enumerate(st.session_state.history, start=1):
             st.markdown(
-                f"<div class='history-item'><strong>#{i}</strong> &nbsp;&nbsp; <code style='font-size:1.4rem;letter-spacing:6px;color:#8B5A3C;font-weight:700;'>{g}</code> &nbsp;&nbsp;→&nbsp;&nbsp; {colorize(clues)}</div>",
+                f"<div class='history-item'><strong>#{i}</strong> &nbsp;&nbsp; <code style='font-size:1.3rem;letter-spacing:4px;color:#8B5A3C;font-weight:700;'>{g}</code> &nbsp;&nbsp;→&nbsp;&nbsp; {colorize(clues)}</div>",
                 unsafe_allow_html=True
             )
     else:
-        st.markdown("<p style='text-align:center; color:#8B5A3C; padding:2rem 0;'>Your guesses will appear here</p>", unsafe_allow_html=True)
-
-    st.markdown("</div>", unsafe_allow_html=True)
+        st.info("Your guesses will appear here")
 
 # ===== GAME OVER =====
 
 if st.session_state.game_over:
     st.markdown("<br>", unsafe_allow_html=True)
-    col1, col2, col3 = st.columns([1, 2, 1])
+    st.markdown("### 🎮 Game Over!")
+
+    if st.session_state.score:
+        st.success(f"**Your Score: {st.session_state.score} points**")
+        st.info(f"Solved in {st.session_state.guess_count} guesses with {st.session_state.num_digits} digits")
+
+    col1, col2, col3 = st.columns([1, 1, 1])
     with col2:
-        st.markdown("<div class='game-card' style='text-align:center;'>", unsafe_allow_html=True)
-        st.markdown("### Game Over!")
-
-        if st.session_state.score:
-            st.markdown(f"### Your Score: {st.session_state.score}")
-            st.markdown(f"*Solved in {st.session_state.guess_count} guesses with {st.session_state.num_digits} digits*")
-
-        if st.button("Play Again", use_container_width=True):
+        if st.button("🔄 Play Again", use_container_width=True, type="primary"):
             reset_game()
             st.rerun()
-        st.markdown("</div>", unsafe_allow_html=True)
 
 # ===== LEADERBOARD =====
 
