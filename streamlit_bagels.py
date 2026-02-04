@@ -231,11 +231,11 @@ with history_col:
 
 if st.session_state.game_over:
     st.markdown("---")
-    st.markdown("### 🎮 Game Over!")
+    st.markdown("###  Game Over!")
     st.info(f"Solved in {st.session_state.guess_count} guesses!")
 
     col1, col2, col3 = st.columns([1, 1, 1])
     with col2:
-        if st.button("🔄 Play Again", use_container_width=True, type="primary"):
+        if st.button(" Play Again", use_container_width=True, type="primary"):
             reset_game()
             st.rerun()

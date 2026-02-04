@@ -17,7 +17,7 @@ When I say:    That means:
   For example : if the secret number was 248 and your guess was 843,
   the clues would be Fermi Pico.''')
     
-    while True: # Main game loop
+    while True: # Game Loop
         # This stores the the secret number the player needs to guess.
         secret_num = get_secret_num()
         print("I have a secret three-digit number in mind.")
