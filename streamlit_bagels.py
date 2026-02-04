@@ -113,9 +113,23 @@ h1, h2, h3 {
 [data-testid="stSidebar"] {
     background: linear-gradient(180deg, #6D4C41 0%, #5D4037 100%) !important;
     border-right: 5px solid #8B5A3C !important;
+    min-width: 280px !important;
+    max-width: 280px !important;
 }
 
-[data-testid="stSidebar"] * {color: #FEFAE0 !important;}
+[data-testid="stSidebar"] > div {
+    overflow-y: auto !important;
+    max-height: 100vh !important;
+}
+
+[data-testid="stSidebar"] * {
+    color: #FEFAE0 !important;
+}
+
+/* Fix sidebar collapse button */
+[data-testid="collapsedControl"] {
+    display: none !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -151,14 +165,15 @@ if st.sidebar.button("New Game", use_container_width=True):
 st.sidebar.markdown("""
 ### How to Play
 
-🟢 **Fermi** - Right digit, right spot
-🟡 **Pico** - Right digit, wrong spot
-🔴 **Bagels** - No correct digits
+**Clues:**
+- 🟢 **Fermi** - Right digit, right spot
+- 🟡 **Pico** - Right digit, wrong spot
+- 🔴 **Bagels** - No correct digits
 
 **Rules:**
 - No repeated digits
-- Use logic to deduce from clues
-- Beat it before running out of guesses!
+- Use logic to deduce
+- Beat it before running out!
 """)
 
 # ===== MAIN GAME =====
