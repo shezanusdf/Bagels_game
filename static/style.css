@@ -1,0 +1,480 @@
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+/* Base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+    font-family: 'Inter', sans-serif;
+    color: #8f8a87ff;
+}
+
+/* Main content container */
+.content {
+    max-width: 75rem; /* 1200px - wider to fit both windows */
+    margin-left: 4.375rem; /* 70px */
+    margin-right: 4.375rem; /* 70px */
+    padding: 2.5rem 1.25rem; /* 40px 20px */
+    text-align: left;
+    line-height: 1.6;
+}
+
+/* Headings */
+h1 {
+    font-size: 4rem; /* 64px */
+    letter-spacing: -0.09375rem; /* -1.5px */
+    color: #1C1C1E;
+    margin-bottom: 0.625rem; /* 10px */
+}
+
+h3 {
+    font-size: 1.5rem; /* 24px */
+    font-weight: 600;
+    color: #6b6767;
+    letter-spacing: -0.03125rem; /* -0.5px */
+    margin-bottom: 1.875rem; /* 30px */
+}
+
+p {
+    font-size: 1.3rem; /* 20.8px */
+    font-weight: 500;
+    letter-spacing: -0.03125rem; /* -0.5px */
+    margin-bottom: 1.25rem; /* 20px */
+}
+
+/* How to Play section - prominent below header */
+.how-to-play {
+    background: #f9f9f9;
+    border-left: 0.25rem solid #000080; /* 4px */
+    padding: 1.25rem 1.5rem; /* 20px 24px */
+    margin-bottom: 2.5rem; /* 40px */
+    border-radius: 0.25rem; /* 4px */
+}
+
+.how-to-play p {
+    font-size: 1.1rem;
+    color: #1C1C1E;
+    margin-bottom: 1rem;
+}
+
+.how-to-play strong {
+    color: #000080;
+    font-size: 1.2rem;
+}
+
+/* Star list (custom bullets) */
+.star-list {
+    list-style: none;
+    padding-left: 0;
+    font-size: 1rem;
+    margin-bottom: 0;
+    color: #6b6767;
+}
+
+.star-list li {
+    margin-bottom: 0.625rem; /* 10px */
+    padding-left: 1.5rem; /* 24px */
+    position: relative;
+}
+
+.star-list li::before {
+    content: "→ ";
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+    color: #000080;
+}
+
+.star-list li strong {
+    color: #1C1C1E;
+}
+
+/* Windows container - holds both game and history windows */
+.windows-container {
+    display: flex;
+    gap: 2rem; /* 32px */
+    margin-top: 0;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+/* Retro window styling */
+.retro-window {
+    flex: 1;
+    min-width: 21.875rem; /* 350px */
+    border: 0.125rem solid #888; /* 2px */
+    box-shadow: 0.375rem 0.375rem 0 #555; /* 6px 6px - retro shadow */
+    background: #f0f0f0;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Title bar */
+.title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #000080; /* Windows 95 blue */
+    color: white;
+    padding: 0.3125rem 0.625rem; /* 5px 10px */
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    user-select: none;
+}
+
+.window-title {
+    font-weight: bold;
+    flex: 1;
+    text-align: center;
+}
+
+/* Window controls (Mac-style stoplight) */
+.win-controls {
+    display: flex;
+    gap: 0.375rem; /* 6px */
+}
+
+.win-btn {
+    width: 0.75rem; /* 12px */
+    height: 0.75rem; /* 12px */
+    padding: 0;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 0.0625rem rgba(0,0,0,0.25);
+}
+
+.win-btn.close { background: #ff5f57; }
+.win-btn.minimize { background: #ffbd2e; }
+.win-btn.maximize { background: #28c840; }
+
+.win-btn:hover { filter: brightness(0.95); }
+.win-btn:active { filter: brightness(0.85); }
+
+/* Window body */
+.window-body {
+    padding: 1.25rem; /* 20px */
+    background: #fff;
+    color: #000;
+    font-size: 1rem;
+}
+
+/* Guess counter */
+.guess-counter {
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem; /* 20px */
+    padding: 0.5rem; /* 8px - reduced from 10px */
+    background: #f9f9f9;
+    border: 0.125rem solid #ccc;
+    color: #1C1C1E;
+}
+
+.guess-counter p {
+    margin-bottom: 0; /* Remove bottom margin from p tag */
+}
+
+/* Game form */
+.game-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem; /* 10px */
+    margin-bottom: 1.25rem;
+}
+
+.game-form label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #1C1C1E;
+}
+
+/* Retro input field */
+.retro-input {
+    font-family: 'Inter', sans-serif; /* Changed to Inter for consistency */
+    font-size: 1.5rem; /* 24px - bigger for better visibility */
+    padding: 0.75rem 1rem; /* 12px 16px */
+    border: 0.125rem solid #fff;
+    border-bottom-color: #808080;
+    border-right-color: #808080;
+    background: #ffffff;
+    box-shadow: inset -0.0625rem -0.0625rem 0 #fff, inset 0.0625rem 0.0625rem 0 #808080;
+    text-align: center;
+    letter-spacing: 0.625rem; /* 10px */
+    font-weight: bold;
+}
+
+.retro-input:focus {
+    outline: 0.1875rem solid #000080; /* 3px */
+    background: #fffff0;
+}
+
+.retro-input::placeholder {
+    font-family: 'Inter', sans-serif;
+    letter-spacing: normal;
+    font-weight: 400;
+}
+
+/* Retro button */
+.retro-button {
+    background: #c0c0c0;
+    border: 0.125rem solid #fff;
+    border-bottom-color: #808080;
+    border-right-color: #808080;
+    padding: 0.625rem 1.5rem; /* 10px 24px */
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: inset -0.0625rem -0.0625rem 0 #fff, inset 0.0625rem 0.0625rem 0 #808080;
+    color: #000;
+    transition: all 0.1s ease;
+}
+
+.retro-button:hover {
+    background: #d0d0d0;
+    transform: translateY(-1px);
+}
+
+.retro-button:active {
+    box-shadow: inset 0.0625rem 0.0625rem 0 #808080, inset -0.0625rem -0.0625rem 0 #fff;
+    transform: translateY(0);
+}
+
+/* Primary button - submit guess */
+.retro-button.primary {
+    background: #000080;
+    color: white;
+    border-top-color: #0000b0;
+    border-left-color: #0000b0;
+}
+
+.retro-button.primary:hover {
+    background: #0000a0;
+}
+
+/* Secondary button - new game */
+.retro-button.secondary {
+    background: #e0e0e0;
+}
+
+/* Game controls */
+.game-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 0.0625rem solid #ccc;
+}
+
+.control-form {
+    width: 100%;
+}
+
+.control-form .retro-button {
+    width: 100%;
+}
+
+/* Game over */
+.game-over {
+    text-align: center;
+    padding: 2rem;
+}
+
+.game-over h3 {
+    font-size: 2rem;
+    color: #1C1C1E;
+    margin-bottom: 1.25rem;
+}
+
+/* Message box */
+.message-box {
+    margin: 1.25rem 0;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, #fff5e1 0%, #ffffe0 100%);
+    border: 0.1875rem solid #ffd700; /* 3px */
+    border-radius: 0.25rem; /* 4px */
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #1C1C1E;
+    text-align: center;
+    box-shadow: 0 0.25rem 0.5rem rgba(255, 215, 0, 0.2);
+}
+
+/* History window body */
+.history-body {
+    min-height: 25rem; /* 400px */
+    max-height: 31.25rem; /* 500px */
+    overflow-y: auto;
+}
+
+/* History list */
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* History item */
+.history-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.625rem;
+    background: #f9f9f9;
+    border-left: 0.1875rem solid #000080; /* 3px */
+    font-family: 'Courier New', monospace;
+}
+
+.history-number {
+    font-weight: bold;
+    color: #1C1C1E;
+    min-width: 2rem;
+}
+
+.history-guess {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2rem;
+    font-weight: bold;
+    letter-spacing: 0.25rem;
+    color: #000080;
+}
+
+.history-clues {
+    flex: 1;
+    text-align: right;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+}
+
+.no-history {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    padding: 2rem;
+    font-family: 'Inter', sans-serif;
+}
+
+/* RESPONSIVE DESIGN */
+
+/* Tablets (1024px and below) */
+@media (max-width: 64rem) {
+    .content {
+        margin-left: 2.5rem;
+        margin-right: 2.5rem;
+        padding: 1.875rem 1.25rem;
+    }
+    
+    h1 { font-size: 3rem; }
+    p { font-size: 1.1rem; }
+    
+    .windows-container {
+        flex-direction: column;
+    }
+    
+    .retro-window {
+        width: 100%;
+    }
+}
+
+/* Phones (768px and below) */
+@media (max-width: 48rem) {
+    .content {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 90%;
+        padding: 1.25rem;
+    }
+
+    h1 { font-size: 2.5rem; }
+    h3 { font-size: 1.2rem; }
+    p { font-size: 1rem; }
+
+    .how-to-play {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .how-to-play p {
+        font-size: 1rem;
+    }
+
+    .star-list {
+        font-size: 0.9rem;
+    }
+
+    .windows-container {
+        margin-top: 0;
+        gap: 1.25rem;
+    }
+
+    .retro-input {
+        font-size: 1.2rem;
+        letter-spacing: 0.375rem;
+    }
+
+    .history-body {
+        min-height: 18.75rem; /* 300px */
+    }
+}
+
+/* Very small phones (480px and below) */
+@media (max-width: 30rem) {
+    .content {
+        margin-left: 0.625rem;
+        margin-right: 0.625rem;
+        padding: 0.9375rem 0.625rem;
+    }
+
+    h1 { font-size: 2rem; }
+    p { font-size: 0.95rem; }
+
+    .how-to-play {
+        padding: 0.75rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .how-to-play p {
+        font-size: 0.9rem;
+    }
+
+    .star-list {
+        font-size: 0.85rem;
+    }
+
+    .star-list li {
+        padding-left: 1.25rem;
+    }
+
+    .retro-window {
+        min-width: auto;
+    }
+
+    .title-bar {
+        font-size: 0.8rem;
+    }
+
+    .window-body {
+        padding: 0.9375rem;
+    }
+
+    .retro-input {
+        font-size: 1.1rem;
+        letter-spacing: 0.3rem;
+        padding: 0.625rem 0.75rem;
+    }
+
+    .retro-button {
+        padding: 0.625rem 1rem;
+        font-size: 0.95rem;
+    }
+}

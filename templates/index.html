@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bagels Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Main content container -->
+    <div class="content">
+        <!-- Page header -->
+        <h1>BAGELS.</h1>
+        <!-- How to Play section -->
+        <div class="how-to-play">
+            <p><strong>How to Play:</strong> I'm thinking of a {{ num_digits }}-digit number with all different digits. Try to guess it!</p>
+            <ul class="star-list">
+                <li><strong>🟢 Fermi</strong> means one digit is correct and in the right position</li>
+                <li><strong>🟡 Pico</strong> means one digit is correct but in the wrong position</li>
+                <li><strong>🔴 Bagels</strong> means no digits are correct</li>
+            </ul>
+        </div>
+
+        <!-- Game and history windows container -->
+        <div class="windows-container">
+            
+            <!-- Game Window -->
+            <div id="game-window" class="retro-window">
+                <!-- Title bar with controls -->
+                <div class="title-bar">
+                    <div class="win-controls">
+                        <button class="win-btn close"></button>
+                        <button class="win-btn minimize"></button>
+                        <button class="win-btn maximize"></button>
+                    </div>
+                    <span class="window-title">GAME.EXE</span>
+                </div>
+
+                <!-- Window body -->
+                <div class="window-body">
+                    {% if not game_over %}
+                        <!-- Guess counter -->
+                        <div class="guess-counter">
+                            <p>Guess <strong>{{ guess_count }}</strong> of <strong>{{ max_guesses }}</strong></p>
+                        </div>
+
+                        <!-- Guess form -->
+                        <form method="POST" class="game-form">
+                            <label for="guess">Enter your {{ num_digits }}-digit guess:</label>
+                            <input
+                                type="text"
+                                id="guess"
+                                name="guess"
+                                placeholder="Type here"
+                                maxlength="{{ num_digits }}"
+                                class="retro-input"
+                                autofocus>
+                            <button type="submit" class="retro-button primary">Submit Guess</button>
+                        </form>
+
+                        <!-- Game controls -->
+                        <div class="game-controls">
+                            <form method="POST" class="control-form">
+                                <button name="new_game" type="submit" class="retro-button secondary">New Game</button>
+                            </form>
+                        </div>
+
+                    {% else %}
+                        <!-- Game over screen -->
+                        <div class="game-over">
+                            <h3>Game Over!</h3>
+                            <form method="POST">
+                                <button name="new_game" type="submit" class="retro-button">Play Again</button>
+                            </form>
+                        </div>
+                    {% endif %}
+
+                    <!-- Message display -->
+                    {% if message %}
+                        <div class="message-box">
+                            <p>{{ message }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- History Window -->
+            <div id="history-window" class="retro-window">
+                <!-- Title bar with controls -->
+                <div class="title-bar">
+                    <div class="win-controls">
+                        <button class="win-btn close"></button>
+                        <button class="win-btn minimize"></button>
+                        <button class="win-btn maximize"></button>
+                    </div>
+                    <span class="window-title">HISTORY.TXT</span>
+                </div>
+
+                <!-- Window body -->
+                <div class="window-body history-body">
+                    {% if history %}
+                        <div class="history-list">
+                            {% for guess, clues in history %}
+                                <div class="history-item">
+                                    <span class="history-number">{{ loop.index }}.</span>
+                                    <span class="history-guess">{{ guess }}</span>
+                                    <span class="history-clues">{{ colorize(clues) }}</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="no-history">No guesses yet. Start playing!</p>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
