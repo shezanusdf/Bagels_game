@@ -1,14 +1,6 @@
-# Bagels Game 🥯
+# Bagels Game (A tutorial project)
 
-A classic deductive logic number-guessing game with a cozy checkered tablecloth design!
-
-## Features
-
-- **Classic Bagels Gameplay**: Guess the secret number using logical deduction
-- **Multiple Difficulty Levels**: Choose between 3-6 digit numbers
-- **Side-by-Side Layout**: See your guesses and clues in real-time
-- **Clean UI**: Beautiful checkered tablecloth aesthetic
-- **Instant Feedback**: Get clues after each guess
+A classic deductive logic number-guessing game.
 
 ## Game Rules
 
@@ -20,36 +12,6 @@ Guess the secret number (no repeated digits allowed). After each guess, you'll g
 
 Use logic to deduce the secret number before running out of guesses!
 
-## Quick Start
-
-### 1. Install Dependencies
-
-```bash
-pip install streamlit
-```
-
-Or install from requirements.txt:
-
-```bash
-pip install -r requirements.txt
-```
-
-### 2. Run the Game
-
-```bash
-streamlit run streamlit_bagels.py
-```
-
-The game will open in your browser at `http://localhost:8501`
-
-## Deployment to Streamlit Cloud
-
-1. Push your code to GitHub
-2. Go to [share.streamlit.io](https://share.streamlit.io)
-3. Connect your GitHub repository
-4. Deploy!
-
-That's it - no configuration needed!
 
 ## How to Play
 
@@ -65,34 +27,9 @@ That's it - no configuration needed!
 - Use Fermi clues to lock in correct positions
 - Pay attention to Pico patterns to figure out placement
 
-## Technologies Used
-
-- **Streamlit**: Web app framework
-- **Python**: Game logic and backend
-- **CSS**: Custom styling for the checkered tablecloth theme
-
-## Game Mechanics
-
-- **No Repeated Digits**: The secret number never has duplicate digits
-- **Limited Guesses**: You have 10 attempts to guess correctly
-- **Smart Clues**: Clues are sorted and always honest
-- **Fresh Start**: Click "New Game" anytime to start over
-
-## Contributing
-
-Contributions are welcome! Feel free to:
-- Report bugs
-- Suggest new features
-- Submit pull requests
-- Improve the documentation
-
-## License
-
-MIT License - feel free to use and modify!
-
 ## About Bagels
 
-Bagels (also known as "Bulls and Cows" or "Mastermind with numbers") is a classic deductive reasoning game. This digital version brings the fun of the original game with a modern, user-friendly interface.
+Bagels (also known as "Bulls and Cows" or "Mastermind with numbers") is a classic deductive reasoning game.
 
 ---
 
